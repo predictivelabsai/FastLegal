@@ -1,58 +1,67 @@
-# Mike
+# OpenHarvey
 
-Open-source release containing the Mike frontend and backend.
+Open-source AI-powered legal document analysis and contract review platform built with [FastHTML](https://fastht.ml) and [LangChain](https://langchain.com).
 
-## Contents
+## Features
 
-- `frontend/` - Next.js application
-- `backend/` - Express API, Supabase access, document processing, and migrations
-- `backend/migrations/000_one_shot_schema.sql` - one-shot Supabase schema for fresh databases
+- **AI Assistant** - Chat with AI about your legal documents using any supported LLM
+- **Multi-LLM Support** - OpenAI (GPT-4o, GPT-4.1, o4-mini), Anthropic (Claude Sonnet 4.6, Haiku 4.5), Google (Gemini 2.5 Flash/Pro) via LangChain
+- **Projects** - Organize documents into projects
+- **Document Upload** - Upload and manage PDF, DOCX, DOC, and TXT files
+- **Tabular Reviews** - Spreadsheet-style document analysis
+- **Workflows** - Reusable prompt templates for common legal tasks
+- **Accounts** - User authentication with per-user model preferences
+
+## Tech Stack
+
+- **Frontend & Backend**: [FastHTML](https://fastht.ml) + [MonsterUI](https://monsterui.answer.ai) (Python, server-rendered with HTMX)
+- **LLM Integration**: [LangChain](https://langchain.com) (multi-provider)
+- **Database**: PostgreSQL via SQLAlchemy
+- **Auth**: Session-based with bcrypt password hashing
 
 ## Setup
 
 Install dependencies:
 
 ```bash
-npm install --prefix backend
-npm install --prefix frontend
+pip install -r requirements.txt
 ```
 
-Create local env files from the examples:
+Create a `.env` file (or edit the existing one) with your database and API keys:
 
-```bash
-cp backend/.env.example backend/.env
-cp frontend/.env.local.example frontend/.env.local
+```
+DB_URL=postgresql://user:pass@host:5432/dbname
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...
+GOOGLE_API_KEY=AI...
+DEFAULT_MODEL=gpt-4o-mini
 ```
 
-Run `backend/migrations/000_one_shot_schema.sql` in the Supabase SQL editor for a fresh database.
+Set at least one LLM provider API key depending on which models you want to use.
 
-Start the backend:
+Initialize the database (tables are auto-created on first run, or use the schema file):
 
 ```bash
-npm run dev --prefix backend
+psql $DB_URL < schema.sql
 ```
 
-Start the frontend:
+Run the app:
 
 ```bash
-npm run dev --prefix frontend
+python main.py
 ```
 
-Open `http://localhost:3000`.
+Open `http://localhost:5001`.
 
-## Required Services
+## Project Structure
 
-- Supabase Auth and Postgres
-- S3-compatible object storage, such as Cloudflare R2
-- At least one supported model provider key, depending on which models you enable
-- LibreOffice for DOC/DOCX to PDF conversion
-
-## Checks
-
-```bash
-npm run build --prefix backend
-npm run build --prefix frontend
-npm run lint --prefix frontend
+```
+main.py           - FastHTML app with all routes
+components.py     - Reusable UI components
+db.py             - SQLAlchemy models and database setup
+llm.py            - LangChain multi-LLM integration
+schema.sql        - PostgreSQL schema
+requirements.txt  - Python dependencies
 ```
 
 ## License

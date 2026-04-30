@@ -1,0 +1,12 @@
+python-fasthtml
+monsterui
+python-dotenv
+sqlalchemy
+psycopg2-binary
+bcrypt
+langchain-core
+langchain-openai
+langchain-anthropic
+langchain-google-genai
+uvicorn
+python-multipart
