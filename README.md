@@ -39,11 +39,14 @@ DEFAULT_MODEL=gpt-4o-mini
 
 Set at least one LLM provider API key depending on which models you want to use.
 
-Initialize the database (tables are auto-created on first run, or use the schema file):
+Create the `openharvey` database and apply the schema:
 
 ```bash
-psql $DB_URL < schema.sql
+createdb -h <host> -U <user> openharvey
+psql $DB_URL -f sql/create_schema.sql
 ```
+
+Tables are also auto-created on first run via SQLAlchemy if they don't exist.
 
 Run the app:
 
@@ -56,12 +59,12 @@ Open `http://localhost:5001`.
 ## Project Structure
 
 ```
-main.py           - FastHTML app with all routes
-components.py     - Reusable UI components
-db.py             - SQLAlchemy models and database setup
-llm.py            - LangChain multi-LLM integration
-schema.sql        - PostgreSQL schema
-requirements.txt  - Python dependencies
+main.py              - FastHTML app with all routes
+components.py        - Reusable UI components
+db.py                - SQLAlchemy models and database setup
+llm.py               - LangChain multi-LLM integration
+sql/create_schema.sql - PostgreSQL schema
+requirements.txt     - Python dependencies
 ```
 
 ## License

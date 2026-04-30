@@ -5,9 +5,12 @@ from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from sqlalchemy.dialects.postgresql import UUID
 
 DATABASE_URL = os.getenv("DB_URL", "postgresql://localhost/openharvey")
-engine = create_engine(DATABASE_URL)
+DB_SCHEMA = os.getenv("DB_SCHEMA", "openharvey")
+
+engine = create_engine(DATABASE_URL, connect_args={"options": f"-csearch_path={DB_SCHEMA},public"})
 SessionLocal = sessionmaker(bind=engine)
 Base = declarative_base()
+Base.metadata.schema = DB_SCHEMA
 
 def utcnow(): return datetime.now(timezone.utc)
 def genuuid(): return str(uuid.uuid4())

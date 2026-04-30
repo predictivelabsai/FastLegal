@@ -1,7 +1,14 @@
--- OpenHarvey schema for plain PostgreSQL (no Supabase)
+-- OpenHarvey schema for plain PostgreSQL
+-- Creates all tables inside the "openharvey" schema.
+-- Usage:
+--   psql -d <your_db> -f sql/create_schema.sql
+
+CREATE SCHEMA IF NOT EXISTS openharvey;
+SET search_path TO openharvey, public;
+
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
--- Users (replaces Supabase auth.users)
+-- Users
 CREATE TABLE IF NOT EXISTS users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   email TEXT NOT NULL UNIQUE,
