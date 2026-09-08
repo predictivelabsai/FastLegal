@@ -1,3 +1,4 @@
+from web.landing import landing_page
 import os, json
 from pathlib import Path
 from dotenv import load_dotenv
@@ -65,7 +66,7 @@ def _user_dict(sess):
 def index(sess):
     if sess.get("user_id"):
         return RedirectResponse("/assistant", status_code=303)
-    return RedirectResponse("/login", status_code=303)
+    return landing_page()
 
 @rt("/login")
 def login_page():
